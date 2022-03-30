@@ -1,31 +1,28 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Improving Efficiency of GAN Voice Conversion using VQ-Wav2vec Features and Dynamic Convolution</title>
+    <title>Efficient Non-Autoregressive GAN Voice Conversion using VQWav2vec Features and Dynamic Convolution</title>
     <link rel="stylesheet" type="text/css" href="../../stylesheet.css"/>
-    <!--link rel="shortcut icon" href="../../imgs/talk.png"-->
+    <!---link rel="shortcut icon" href="model_comparison"-->
   </head>
   <body>
     <article>
       <header>
-        <h1>Improving Efficiency of GAN Voice Conversion using VQ-Wav2vec Features and Dynamic Convolution</h1>
+        <h1>Efficient Non-Autoregressive GAN Voice Conversion using VQWav2vec Features and Dynamic Convolution</h1>
       </header>
     </article>
 
     <!--<div><b>Paper:</b> [<a href="https://arxiv.org/pdf/2010.12231">arXiv</a>] </div>-->
-    <div><b>Authors:</b> Mingjie Chen, Yanghao Zhou, Heyan Huang, Thomas, Hain</div>
-    <!--<div><b>Comments:</b> Accepted to ICASSP 2021. </div>-->
+    <div><b>Authors:</b> Mingjie Chen, Yanghao Zhou, Heyan Huang, Thomas Hain</div>
+    <b>Comments:</b> Submitted to INTERSPEECH 2022
 
     <br>
 
     <div style="width: 80%">
-      <b>Abstract:</b> This paper presents a novel efficient voice conversion (VC) model based on generative adversarial network. Most of the state of the art (SOTA) VC models requires plenty of parameters, which limits applications of VC systems in practical situations. This paper proposes DYGAN-VC, aiming at improving model efficiency without huge performance degradation. To improve efficiency, DYGAN-VC uses pretrained VQWav2vec features as inputs. Besides, DyGAN-VC uses dynamic convolution, which enhances speech content modeling. DYGAN-VC reaches comparable performance of the SOTA with much less parameters. DYGAN-VC has only 7 million parameters and training finishes within 1 hour on one gpu.
+      <b>Abstract:</b> It was shown recently that a combination of ASR and TTS models yield highly competitive performance on standard voice conversion tasks such as the Voice Conversion Challenge 2020 (VCC2020). To obtain good performance both models require pretraining on large amounts of data, thereby obtaining large models that are potentially inefficient in use. In this work we present a model that is significantly smaller and thereby faster in processing while obtaining equivalent performance. To achieve this the proposed model, Dynamic-GAN-VC (DYGAN-VC), uses a non-autoregressive structure and makes use of vector quantised embeddings obtained from a VQWav2vec model. Furthermore dynamic convolution is introduced to improve speech content modeling while requiring a small number of parameters. Objective and subjective evaluation was performed using the VCC2020 task, yielding MOS scores of up to 3.86, and character error rates as low as 4.3%. This was achieved with approximately half the number of model parameters, and up to 8 times faster decoding speed.
     </div>
 
-    <!--<div>
-      <h2>Proposed method</h2>
-      <img src="imgs/proposed.png" style="width: 30%;"/>
-    </div>-->
+  
 
     <div style="width: 80%">
       <h2>Dataset</h2>
@@ -37,230 +34,120 @@
       <ul>
         <li><strong>Source, Target</strong>: Natural speech of the source and target speakers.</li>
         <!--<li><strong>Analysis-Synthesis</strong></a>: Analysis-synthesis samples from the Parallel WaveGAN vocoder.</li>-->
-        <li><a href="https://github.com/espnet/espnet/tree/master/egs/vcc20"><strong>Cascade ASR-TTS </strong></a>: a Transformer-based ASR + a Transformer-based TTS</li>
-        <li><strong>Proposed</strong>: The proposed method with vq-wav2vec for M2O VC only using data from the target speaker.</li>
+        <li>Baseline: <a href="https://github.com/espnet/espnet/tree/master/egs/vcc20"><strong>Cascade ASR-TTS </strong></a>, a Transformer-based ASR + a Transformer-based TTS</li>
+        <li><strong>Proposed</strong>: DYGAN-VC, a GAN model using VQWav2vec as input.</li>
       </ul>
+    </div>
+    <div style="width: 80%">
+      <h2>A comparison of DYGAN-VC and the Cascade ASR-TTS model</h2>
+      <img src="model_comparison.png" style="width: 80%;"/>
     </div>
 
     <div style="width: 80%">
         <h2>Speech Samples</h2>
 
-        <h3 class="transcript">Transcription: There were stir and bustle, new faces, and fresh facts.</h3>
+        <h3 class="transcript">Transcription: In recent years she has primarily appeared in television films such as Little Gloria.</h3>
         <br>
         <table>
             <tr style="border-top: solid; border-bottom: solid;">
-              <th>Model</th><th>clb(F)-slt(F)</th><th>bdl(M)-slt(F)</th>
+              <th>Source</th><th>Target</th><th>DYGAN-VC</th><th>Cascade ASR-TTS</th>
             </tr>
 
             <tr>
-                <td>Source</td>
                 <td>
-                  <audio controls><source src="samples/golden/clb/arctic_b0440.wav"></audio>
+                  <audio controls><source src="dygan_vc_samples/SEF1_E30008.wav"></audio>
                 </td>
                 <td>
-                  <audio controls><source src="samples/golden/bdl/arctic_b0440.wav"></audio>
+                  <audio controls><source src="dygan_vc_samples/TEF1_E30008.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/dyganvc_SEF1_TEF1_E30008_gen.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/baseline_SEF1_TEF1_E30008.wav"></audio>
                 </td>
               </tr>
 
-            <tr>
-              <td>Target</td>
-              <td colspan="2">
-                <audio controls><source src="samples/golden/slt/arctic_b0440.wav"></audio>
-              </td>
-            </tr>
-
-            <tr>
-              <td>Analysis-Synthesis</td>
-              <td colspan="2">
-                <audio controls><source src="samples/analysis-synthesis/slt/slt_arctic_b0440_gen.wav"></audio>
-              </td>
-            </tr>
-
-            <tr>
-              <td>VTN (932)</td>
-              <td>
-                <audio controls><source src="samples/vtn-tts-pt-n932/clb-slt/arctic_b0440.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/vtn-tts-pt-n932/bdl-slt/arctic_b0440.wav"></audio>
-              </td>
-            </tr>
-
-            <tr>
-              <td>VTN (80)</td>
-              <td>
-                <audio controls><source src="samples/vtn-tts-pt-n80/clb-slt/arctic_b0440.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/vtn-tts-pt-n80/bdl-slt/arctic_b0440.wav"></audio>
-              </td>
-            </tr>
-
-            <tr>
-              <td>Proposed (932)</td>
-              <td>
-                <audio controls><source src="samples/proposed-n932/clb-slt/clb_arctic_b0440.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/proposed-n932/bdl-slt/bdl_arctic_b0440.wav"></audio>
-              </td>
-            </tr>
-
-            <tr style="border-bottom: solid;">
-              <td>Proposed (80)</td>
-              <td>
-                <audio controls><source src="samples/proposed-n80/clb-slt/clb_arctic_b0440.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/proposed-n80/bdl-slt/bdl_arctic_b0440.wav"></audio>
-              </td>
-            </tr>
+            
 
         </table>
-
-        <h3 class="transcript">Transcription: And there was Ethel Baird, whom also you must remember.</h3>
+        <h3 class="transcript">Nevertheless, the holders haven't agreed to the exchange.</h3>
         <br>
         <table>
             <tr style="border-top: solid; border-bottom: solid;">
-              <th>Model</th><th>clb(F)-slt(F)</th><th>bdl(M)-slt(F)</th>
+              <th>Source</th><th>Target</th><th>DYGAN-VC</th><th>Cascade ASR-TTS</th>
             </tr>
 
             <tr>
-              <td>Source</td>
-              <td>
-                <audio controls><source src="samples/golden/clb/arctic_b0441.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/golden/bdl/arctic_b0441.wav"></audio>
-              </td>
-            </tr>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/SEF1_E30023.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/TEM1_E30023.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/dyganvc_SEF1_TEM1_E30023_gen.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/baseline_SEF1_TEM1_E30023.wav"></audio>
+                </td>
+              </tr>
 
-          <tr>
-            <td>Target</td>
-            <td colspan="2">
-              <audio controls><source src="samples/golden/slt/arctic_b0441.wav"></audio>
-            </td>
-          </tr>
+            
 
-          <tr>
-            <td>Analysis-Synthesis</td>
-            <td colspan="2">
-              <audio controls><source src="samples/analysis-synthesis/slt/slt_arctic_b0441_gen.wav"></audio>
-            </td>
-          </tr>
+          </table>
 
-          <tr>
-            <td>VTN (932)</td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n932/clb-slt/arctic_b0441.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n932/bdl-slt/arctic_b0441.wav"></audio>
-            </td>
-          </tr>
-
-          <tr>
-            <td>VTN (80)</td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n80/clb-slt/arctic_b0441.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n80/bdl-slt/arctic_b0441.wav"></audio>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Proposed (932)</td>
-            <td>
-              <audio controls><source src="samples/proposed-n932/clb-slt/clb_arctic_b0441.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/proposed-n932/bdl-slt/bdl_arctic_b0441.wav"></audio>
-            </td>
-          </tr>
-
-          <tr style="border-bottom: solid;">
-            <td>Proposed (80)</td>
-            <td>
-              <audio controls><source src="samples/proposed-n80/clb-slt/clb_arctic_b0441.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/proposed-n80/bdl-slt/bdl_arctic_b0441.wav"></audio>
-            </td>
-          </tr>
-
-        </table>
-
-        <h3 class="transcript">Transcription: He had become a man very early in life.</h3>
+          </table>
+        <h3 class="transcript">He often makes crucial moves without consulting committee members.</h3>
         <br>
         <table>
             <tr style="border-top: solid; border-bottom: solid;">
-              <th>Model</th><th>clb(F)-slt(F)</th><th>bdl(M)-slt(F)</th>
+              <th>Source</th><th>Target</th><th>DYGAN-VC</th><th>Cascade ASR-TTS</th>
             </tr>
 
             <tr>
-              <td>Source</td>
-              <td>
-                <audio controls><source src="samples/golden/clb/arctic_b0442.wav"></audio>
-              </td>
-              <td>
-                <audio controls><source src="samples/golden/bdl/arctic_b0442.wav"></audio>
-              </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/SEM2_E30016.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/TEF2_E30016.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/dyganvc_SEM2_TEF2_E30016_gen.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/baseline_SEM2_TEF2_E30016.wav"></audio>
+                </td>
+              </tr>
+
+            
+
+        </table>
+
+         </table>
+        <h3 class="transcript">The fishermen are inactive, tired and disappointed.</h3>
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Source</th><th>Target</th><th>DYGAN-VC</th><th>Cascade ASR-TTS</th>
             </tr>
 
-          <tr>
-            <td>Target</td>
-            <td colspan="2">
-              <audio controls><source src="samples/golden/slt/arctic_b0442.wav"></audio>
-            </td>
-          </tr>
+            <tr>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/SEM2_E30007.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/TEM2_E30007.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/dyganvc_SEM2_TEM2_E30007_gen.wav"></audio>
+                </td>
+                <td>
+                  <audio controls><source src="dygan_vc_samples/baseline_SEM2_TEM2_E30007.wav"></audio>
+                </td>
+              </tr>
 
-          <tr>
-            <td>Analysis-Synthesis</td>
-            <td colspan="2">
-              <audio controls><source src="samples/analysis-synthesis/slt/slt_arctic_b0442_gen.wav"></audio>
-            </td>
-          </tr>
-
-          <tr>
-            <td>VTN (932)</td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n932/clb-slt/arctic_b0442.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n932/bdl-slt/arctic_b0442.wav"></audio>
-            </td>
-          </tr>
-
-          <tr>
-            <td>VTN (80)</td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n80/clb-slt/arctic_b0442.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/vtn-tts-pt-n80/bdl-slt/arctic_b0442.wav"></audio>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Proposed (932)</td>
-            <td>
-              <audio controls><source src="samples/proposed-n932/clb-slt/clb_arctic_b0442.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/proposed-n932/bdl-slt/bdl_arctic_b0442.wav"></audio>
-            </td>
-          </tr>
-
-          <tr style="border-bottom: solid;">
-            <td>Proposed (80)</td>
-            <td>
-              <audio controls><source src="samples/proposed-n80/clb-slt/clb_arctic_b0442.wav"></audio>
-            </td>
-            <td>
-              <audio controls><source src="samples/proposed-n80/bdl-slt/bdl_arctic_b0442.wav"></audio>
-            </td>
-          </tr>
+            
 
         </table>
 
