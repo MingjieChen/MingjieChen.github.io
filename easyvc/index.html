@@ -84,19 +84,48 @@
       <h3>One-shot Voice Conversion Results<a id="vc_exp_1"/></h3>
 
       <p style="margin-top: 2em">
-        In this section, we provide the objective results and audio demos of a simple comparison one-shot VC experiment. We chosed VQ-Wav2vec and ConformerPPG as linguistic encoders, in the meantime, we chosed FastSpeech2, TacoAR and TacoMOL as decoders. Traing dataset is LibriTTS-460-clean, testing dataset is VCTK. We use d-vector as speaker encoder, ppgvc_f0 as prosodic encoder, ppgvc_hifigan as vocoder.
+        In this section, we provide the objective results and audio demos of a simple comparison one-shot VC experiment. We use VQ-Wav2vec and ConformerPPG as linguistic encoders, in the meantime, we choose FastSpeech2, TacoAR and TacoMOL as decoders. Traing dataset is LibriTTS-460-clean, testing dataset is VCTK. We use d-vector as speaker encoder, ppgvc_f0 as prosodic encoder, ppgvc_hifigan as vocoder.
      </p>
 
-     <p> <b>List VC Systems:</b></p>
+     <div>
+     <p style="margin-top: 2em"> <b>List VC Systems:</b>
      <li><b>System 0</b>: libritts_vqwav2vec_uttdvec_ppgvcf0_fs2_ppgvchifigan</li>    
      <li><b>System 1</b>: libritts_vqwav2vec_uttdvec_ppgvcf0_tacoar_ppgvchifigan</li>    
      <li><b>System 2</b>: libritts_vqwav2vec_uttdvec_ppgvcf0_tacomol_ppgvchifigan</li>    
      <li><b>System 3</b>: libritts_conformerppg_uttdvec_ppgvcf0_fs2_ppgvchifigan</li>    
      <li><b>System 4</b>: libritts_conformerppg_uttdvec_ppgvcf0_tacoar_ppgvchifigan</li>    
      <li><b>System 5</b>: libritts_conformerppg_uttdvec_ppgvcf0_tacomol_ppgvchifigan</li>    
+     </p>
+   </div>
 
+     <div style="margin-top: 2em">
+      <b>Objective Results</b>
+      <table
+          class="table table-hover"
+          id="objective_results"
+        >
+          <thead>
+            <tr>
+              <th style="text-align: center" >VC System</th>
+              <th style="text-align: center">Predicted MOS</th>
+              <th style="text-align: center">ASR WER</th>
+              <th style="text-align: center">ASV EER</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+             <tr height=80px> <td style="text-align: center"><b>System 0</b></td> <td style="text-align: center">3.78</td> <td style="text-align: center">21.4</td> <td style="text-align: center">15.5</td> </tr>
+             <tr height=80px> <td style="text-align: center"><b>System 1</b></td> <td style="text-align: center">3.75</td> <td style="text-align: center">21.2</td> <td style="text-align: center">19.8</td> </tr>
+             <tr height=80px> <td style="text-align: center"><b>System 2</b></td> <td style="text-align: center">3.33</td> <td style="text-align: center">22.4</td> <td style="text-align: center">16.6</td> </tr>
+             <tr height=80px> <td style="text-align: center"><b>System 3</b></td> <td style="text-align: center"><b>3.88</b></td><td style="text-align: center"><b>15.0</b></td> <td style="text-align: center"><b>14.4</b></td> </tr>
+             <tr height=80px> <td style="text-align: center"><b>System 4</b></td> <td style="text-align: center">3.82</td> <td style="text-align: center">17.1</td> <td style="text-align: center">23.3</td> </tr>
+             <tr height=80px> <td style="text-align: center"><b>System 5</b></td> <td style="text-align: center">3.12</td> <td style="text-align: center">21.2</td> <td style="text-align: center">16.4</td> </tr>
+          </tbody>
+        </table>
+    </div>
         
-      <div class="container pt-3 table-responsive">
+      <div class="container pt-3 table-responsive" style="margin-top: 2em" >
+        <b>Audio Demos</b>
         <table
           class="table table-hover"
           id="voice-conversion-exp-table"
